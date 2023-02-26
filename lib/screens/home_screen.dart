@@ -76,6 +76,25 @@ class _HomeScreenState extends State<HomeScreen> {
                 Container(
                   height: 300,
                   child: TrackWidget(refresh),
+                ),
+                CircleTrackWidget(
+                  song: newRelease,
+                  title: "new release",
+                  subtitle: "3456 song",
+                  notifyParent: refresh,
+                ),
+                CircleTrackWidget(
+                  song: mostPopular,
+                  title: "sua playlist",
+                  subtitle: "346 song",
+                  notifyParent: refresh,
+                ),
+                SizedBox(
+                  height: 130,
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: PlayerHome(currentSong),
                 )
               ],
             ),
@@ -87,6 +106,47 @@ class _HomeScreenState extends State<HomeScreen> {
 
   refresh() {
     setState(() {});
+  }
+}
+
+Song currentSong = Song(
+    name: "title",
+    singer: "singer",
+    image: "assets/song1.jpg",
+    duration: 100,
+    color: Colors.black);
+
+double currentSlider = 0;
+
+class PlayerHome extends StatefulWidget {
+  final Song song;
+  PlayerHome(this.song);
+
+  @override
+  State<PlayerHome> createState() => _PlayerHomeState();
+}
+
+class _PlayerHomeState extends State<PlayerHome> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 130,
+      padding: EdgeInsets.all(8),
+      decoration: BoxDecoration(
+          color: Colors.black,
+          borderRadius: BorderRadius.only(topRight: Radius.circular(30))),
+      child: Column(children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            CircleAvatar(
+              backgroundImage: AssetImage(widget.song.image),
+              radius: 30,
+            )
+          ],
+        )
+      ]),
+    );
   }
 }
 
@@ -144,6 +204,80 @@ class TrackWidget extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class CircleTrackWidget extends StatelessWidget {
+  final String title;
+  final List<Song> song;
+  final String subtitle;
+  final Function() notifyParent;
+
+  CircleTrackWidget(
+      {required this.title,
+      required this.song,
+      required this.subtitle,
+      required this.notifyParent});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 210,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(left: 20, top: 10),
+            child: Text(
+              title,
+              style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 20, top: 20),
+            child: Text(
+              subtitle,
+              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
+            ),
+          ),
+          Container(
+            height: 120,
+            child: ListView.builder(
+              itemCount: song.length,
+              scrollDirection: Axis.horizontal,
+              shrinkWrap: true,
+              itemBuilder: (BuildContext context, int index) {
+                return Container(
+                  margin: EdgeInsets.symmetric(horizontal: 10),
+                  child: Column(
+                    children: [
+                      CircleAvatar(
+                        backgroundImage: AssetImage(song[index].image),
+                        radius: 40,
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        song[index].name,
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      Text(
+                        song[index].singer,
+                        style: TextStyle(color: Colors.white54),
+                      )
+                    ],
+                  ),
+                );
+              },
+            ),
+          )
+        ],
+      ),
     );
   }
 }
