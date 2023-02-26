@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:musicplay/database.dart';
+import 'package:musicplay/screens/musicPlayer.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -129,107 +130,118 @@ class PlayerHome extends StatefulWidget {
 class _PlayerHomeState extends State<PlayerHome> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 130,
-      padding: EdgeInsets.all(8),
-      decoration: BoxDecoration(
-          color: Colors.black,
-          borderRadius: BorderRadius.only(topRight: Radius.circular(30))),
-      child: Column(children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                CircleAvatar(
-                  backgroundImage: AssetImage(widget.song.image),
-                  radius: 30,
-                ),
-              ],
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  widget.song.name,
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  widget.song.name,
-                  style: TextStyle(
-                    color: Colors.white54,
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+            context,
+            PageRouteBuilder(
+                pageBuilder: (context, _, __) => MusicPlayer(widget.song)));
+      },
+      child: Container(
+        height: 130,
+        padding: EdgeInsets.all(8),
+        decoration: BoxDecoration(
+            color: Colors.black,
+            borderRadius: BorderRadius.only(topRight: Radius.circular(30))),
+        child: Column(children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Hero(
+                    tag: "image",
+                    child: CircleAvatar(
+                      backgroundImage: AssetImage(widget.song.image),
+                      radius: 30,
+                    ),
                   ),
-                )
-              ],
-            ),
-            Row(
-              children: [
-                Icon(
-                  Icons.pause,
-                  color: Colors.white,
-                  size: 30,
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Icon(
-                  Icons.skip_next_outlined,
-                  color: Colors.white,
-                  size: 30,
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-              ],
-            )
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              Duration(seconds: currentSlider.toInt())
-                  .toString()
-                  .split('.')[0]
-                  .substring(2),
-              style: TextStyle(color: Colors.white),
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width - 120,
-              child: SliderTheme(
-                data: SliderTheme.of(context).copyWith(
-                    thumbShape: RoundSliderThumbShape(enabledThumbRadius: 4),
-                    trackShape: RectangularSliderTrackShape(),
-                    trackHeight: 4),
-                child: Slider(
-                    value: currentSlider,
-                    max: widget.song.duration.toDouble(),
-                    min: 0,
-                    inactiveColor: Colors.white,
-                    onChanged: ((value) {
-                      setState(() {
-                        currentSlider = value;
-                      });
-                    })),
+                ],
               ),
-            ),
-            Text(
-              Duration(seconds: widget.song.duration.toInt())
-                  .toString()
-                  .split('.')[0]
-                  .substring(2),
-              style: TextStyle(color: Colors.white),
-            ),
-          ],
-        )
-      ]),
+              SizedBox(
+                width: 10,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.song.name,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    widget.song.name,
+                    style: TextStyle(
+                      color: Colors.white54,
+                    ),
+                  )
+                ],
+              ),
+              Row(
+                children: [
+                  Icon(
+                    Icons.pause,
+                    color: Colors.white,
+                    size: 30,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Icon(
+                    Icons.skip_next_outlined,
+                    color: Colors.white,
+                    size: 30,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                ],
+              )
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                Duration(seconds: currentSlider.toInt())
+                    .toString()
+                    .split('.')[0]
+                    .substring(2),
+                style: TextStyle(color: Colors.white),
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width - 120,
+                child: SliderTheme(
+                  data: SliderTheme.of(context).copyWith(
+                      thumbShape: RoundSliderThumbShape(enabledThumbRadius: 4),
+                      trackShape: RectangularSliderTrackShape(),
+                      trackHeight: 4),
+                  child: Slider(
+                      value: currentSlider,
+                      max: widget.song.duration.toDouble(),
+                      min: 0,
+                      inactiveColor: Colors.white,
+                      onChanged: ((value) {
+                        setState(() {
+                          currentSlider = value;
+                        });
+                      })),
+                ),
+              ),
+              Text(
+                Duration(seconds: widget.song.duration.toInt())
+                    .toString()
+                    .split('.')[0]
+                    .substring(2),
+                style: TextStyle(color: Colors.white),
+              ),
+            ],
+          )
+        ]),
+      ),
     );
   }
 }
