@@ -134,6 +134,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 20),
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
                                 Duration(seconds: currentSlider.toInt())
@@ -148,6 +149,47 @@ class _MusicPlayerState extends State<MusicPlayer> {
                                     .split('.')[0]
                                     .substring(2),
                                 style: TextStyle(color: Colors.white),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Icon(
+                              Icons.skip_previous_outlined,
+                              color: Colors.white,
+                              size: 40,
+                            ),
+                            Icon(
+                              Icons.pause,
+                              color: Colors.white,
+                              size: 50,
+                            ),
+                            Icon(
+                              Icons.skip_next_outlined,
+                              color: Colors.white,
+                              size: 40,
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Icon(
+                                Icons.replay_outlined,
+                                color: Colors.white,
+                                size: 40,
+                              ),
+                              Icon(
+                                Icons.shuffle,
+                                color: Colors.white,
+                                size: 40,
                               ),
                             ],
                           ),
